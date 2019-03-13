@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:zcystudio/auth.git",
   "author": "zhaochy <zhaochy_2015@hotmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "egg.js": "1.0.0"
+  }
 }
