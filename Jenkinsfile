@@ -8,7 +8,7 @@ pipeline {
       steps {
         echo 'Building..'
         sh 'env'
-        sh 'scripts/build.sh'
+        sh 'jenkins_scripts/build.sh'
       }
     }
     stage('Test') {
@@ -23,7 +23,7 @@ pipeline {
     }
     stage('dingTalk Notification') {
       steps {
-        sh 'scripts/dingTalk.sh deploy'
+        sh 'jenkins_scripts/dingTalk.sh deploy'
       }
     }
   }
