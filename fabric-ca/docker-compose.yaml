@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  # Start Fabric-ca server with its default configs
+  ca:
+    image: hyperledger/fabric-ca:1.4
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca_org1
+      # This is the root cert for this ca
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/cert.pem
+      # This is the private key for this ca
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/b82c5ba878033c11ac76c59d599d90a00285d19813fcbb3280d32e3c3a78f429_sk
+      # On Production evn we may want to enable TLS, just set the next line to true
+      - FABRIC_CA_SERVER_TLS_ENABLED=false
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/b82c5ba878033c11ac76c59d599d90a00285d19813fcbb3280d32e3c3a78f429_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start --cfg.identities.allowremove --cfg.affiliations.allowremove -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/:/etc/hyperledger/fabric-ca-server-config
+      - ./fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server/fabric-ca-server-config.yaml
+    container_name: ca
+
+  # TODO: For production use, mongodb should have username and password
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "adminpw"
