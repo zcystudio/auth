@@ -26,6 +26,8 @@ class UserService extends Service {
         passWord: regMsg.passWord,
         email: regMsg.email,
         cellPhone: regMsg.cellPhone,
+        roles: regMsg.roles,
+        applyForCertificate: regMsg.applyForCertificate,
       };
 
       const result = await ctx.app.mongo.insertOne(collection, { doc: userInfo });
