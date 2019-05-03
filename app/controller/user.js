@@ -5,9 +5,9 @@ class UserController extends Controller {
   // register
   async register() {
     const { ctx, app } = this;
-    const regMsg = ctx.request.body;
+    let regMsg = ctx.request.body;
     try {
-      ctx.validate(app.validator.user.register, regMsg);
+      regMsg = ctx.validate(app.validator.user.register, regMsg).value;
       regMsg.passWord = ctx.helper.encrypt(regMsg.passWord);
       const result = await ctx.service.user.register(regMsg);
       ctx.body = result;
@@ -15,7 +15,7 @@ class UserController extends Controller {
     } catch (err) {
       ctx.logger.error(err);
       ctx.status = 500;
-      ctx.body = {};
+      ctx.body = err.message;
     }
   }
   // login
@@ -33,7 +33,7 @@ class UserController extends Controller {
     } catch (err) {
       ctx.logger.error(err);
       ctx.status = 500;
-      ctx.body = {};
+      ctx.body = err.message;
     }
   }
 }
