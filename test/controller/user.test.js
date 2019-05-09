@@ -5,7 +5,7 @@ describe('test/controller/user.test.js', () => {
     const user = { userName: 'admin', passWord: 'admin' };
     app.mockCsrf();
     await app.httpRequest()
-      .post('/login')
+      .post('/api/v1/login')
       .type('form')
       .send(user)
       .expect(function(res) {
@@ -18,7 +18,7 @@ describe('test/controller/user.test.js', () => {
     const user = { userName: 'user', passWord: 'user' };
     app.mockCsrf();
     await app.httpRequest()
-      .post('/login')
+      .post('/api/v1/login')
       .type('form')
       .send(user)
       .expect(function(res) {
@@ -31,7 +31,7 @@ describe('test/controller/user.test.js', () => {
     const user = { userName: 'admin', passWord: 'user' };
     app.mockCsrf();
     await app.httpRequest()
-      .post('/login')
+      .post('/api/v1/login')
       .type('form')
       .send(user)
       .expect(function(res) {
@@ -43,7 +43,7 @@ describe('test/controller/user.test.js', () => {
     const user = { userName: 'adfa', passWord: 'user' };
     app.mockCsrf();
     await app.httpRequest()
-      .post('/login')
+      .post('/api/v1/login')
       .type('form')
       .send(user)
       .expect(function(res) {

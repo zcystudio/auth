@@ -37,4 +37,8 @@ exports.joi = {
 exports.mongodb = {
   collection: 'users',
 };
-
+exports.view = {
+  mapping: {
+    '.html': 'ejs',
+  },
+};
