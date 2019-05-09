@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Auth APIs",
+    "description": "Auth server\\'s APIs",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:7001/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login",
+      "description": "login with username and password"
+    },
+    {
+      "name": "register",
+      "description": "create new user"
+    },
+    {
+      "name": "identityRequest",
+      "description": "manager identity authentication"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Request for login",
+        "description": "Returns results and status codes .",
+        "operationId": "userLogin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userName": {
+                    "type": "string"
+                  },
+                  "passWord": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "default": "登录成功"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "incorrect password for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "default": "用户密码不符"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "can not find this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "default": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Request for register",
+        "description": "Returns results with status",
+        "operationId": "userRegister",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userName": {
+                    "type": "string"
+                  },
+                  "passWord": {
+                    "type": "string"
+                  },
+                  "cellPhone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/register"
+          },
+          "400": {
+            "$ref": "#/components/responses/register"
+          },
+          "500": {
+            "$ref": "#/components/responses/register"
+          }
+        }
+      }
+    },
+    "/identityRequest": {
+      "post": {
+        "tags": [
+          "identityRequest"
+        ],
+        "summary": "create a new CA",
+        "operationId": "createCA",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/identityRequest"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/identityRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/identityRequest"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "identityRequest"
+        ],
+        "summary": "index identity",
+        "operationId": "index",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/identityRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/identityRequest"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/identityRequest/:{id}": {
+      "get": {
+        "tags": [
+          "identityRequest"
+        ],
+        "summary": "query identity info",
+        "operationId": "queryCA",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/identityRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/identityRequest"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "identityRequest"
+        ],
+        "summary": "delete user's CA",
+        "operationId": "deleteCA",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/identityRequest"
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/identityRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/identityRequest"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "requestBodies": {
+      "identityRequest": {
+        "description": "request identity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "fabric-ca",
+                    "cfca"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "register": {
+        "description": "register result",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "payload": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "identityRequest": {
+        "description": "identity result",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "payload": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
