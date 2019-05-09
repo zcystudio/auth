@@ -59,17 +59,14 @@ class UserService extends Service {
     if (queryResult == null) {
       res.code = 404;
       res.msg = 'user not found';
-      res.data = {};
     } else {
       if (loginMsg.passWord !== queryResult.passWord) {
         res.code = 401;
         res.msg = '用户密码不符';
-        res.data = {};
       } else {
         const token = this.app.jwt.sign({
           userName: loginMsg.userName,
         }, this.app.config.jwt.secret, { expiresIn: '600s' });
-        res.data = {};
         res.code = 200;
         res.msg = '登录成功';
         res.token = token;

@@ -21,9 +21,8 @@ class IdentityController extends Controller {
   }
   // get
   async index() {
-    const { ctx, app } = this;
+    const { ctx } = this;
     try {
-      ctx.validate(app.validator.identity.body, ctx.request.body);
       ctx.body = {
         success: true,
         message: 'get成功',
@@ -38,9 +37,8 @@ class IdentityController extends Controller {
   }
   // get :id
   async show() {
-    const { ctx, app } = this;
+    const { ctx } = this;
     try {
-      ctx.validate(app.validator.identity.body, ctx.request.body);
       ctx.body = {
         success: true,
         message: 'show成功',

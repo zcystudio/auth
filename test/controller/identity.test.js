@@ -9,7 +9,7 @@ describe('test/controller/identity.test.js', () => {
       userName: 'user',
     }, app.config.jwt.secret, { expiresIn: '600s' });
     await app.httpRequest()
-      .post('/api/vi/identityRequest')
+      .post('/api/v1/identityRequest')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
       .send(fabric)
@@ -18,25 +18,25 @@ describe('test/controller/identity.test.js', () => {
       })
       .expect(201);
     await app.httpRequest()
-      .get('/api/vi/identityRequest')
+      .get('/api/v1/identityRequest')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
-      .send(fabric)
+      .send()
       .expect(function(res) {
         res.body.message = 'get成功';
       })
       .expect(200);
     await app.httpRequest()
-      .get('/api/vi/identityRequest/:123')
+      .get('/api/v1/identityRequest/:123')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
-      .send(fabric)
+      .send()
       .expect(function(res) {
         res.body.message = 'show成功';
       })
       .expect(200);
     await app.httpRequest()
-      .delete('/api/vi/identityRequest/:123')
+      .delete('/api/v1/identityRequest/:123')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
       .send(fabric)
@@ -45,7 +45,7 @@ describe('test/controller/identity.test.js', () => {
       })
       .expect(200);
     await app.httpRequest()
-      .post('/api/vi/identityRequest')
+      .post('/api/v1/identityRequest')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
       .send(cfca)
@@ -59,7 +59,7 @@ describe('test/controller/identity.test.js', () => {
     const cfca = { type: 'cfca' };
     app.mockCsrf();
     await app.httpRequest()
-      .post('/api/vi/identityRequest')
+      .post('/api/v1/identityRequest')
       .type('form')
       .send(cfca)
       .expect(function(res) {
@@ -75,7 +75,7 @@ describe('test/controller/identity.test.js', () => {
       userName: 'user',
     }, app.config.jwt.secret, { expiresIn: '600s' });
     await app.httpRequest()
-      .post('/api/vi/identityRequest')
+      .post('/api/v1/identityRequest')
       .set('Authorization', 'Bearer ' + token)
       .type('form')
       .send(cfca)
